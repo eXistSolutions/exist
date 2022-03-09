@@ -755,3 +755,25 @@ function ser:exist-process-xsl-pi-false() {
     let $doc := doc($ser:collection || "/test-xsl.xml")
     return fn:serialize($doc, map {xs:QName("exist:process-xsl-pi"): false()})
 };
+
+declare
+    %test:assertTrue
+function ser:exist-insert-final-newline-false() {
+    let $doc := <root>
+    <nested />
+    </root>
+    let $serialized := fn:serialize($doc,
+        map {xs:QName("exist:insert-final-newline"): false()})
+    return fn:ends-with($serialized, ">")
+};
+
+declare
+    %test:assertTrue
+function ser:exist-insert-final-newline-true() {
+    let $doc := <root>
+    <nested />
+    </root>
+    let $serialized := fn:serialize($doc,
+        map {xs:QName("exist:insert-final-newline"): true()})
+    return fn:ends-with($serialized, "&#x0A;")
+};
